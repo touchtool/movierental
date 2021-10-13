@@ -5,11 +5,12 @@ from movie import Movie
 from rental import Rental
 from customer import Customer
 
+
 def make_movies():
     movies = [
         Movie("The Irishman", Movie.NEW_RELEASE),
         Movie("CitizenFour", Movie.REGULAR),
-        Movie("Frozen", Movie.CHILDRENS),
+        Movie("Frozen", Movie.CHILDREN),
         Movie("El Camino", Movie.NEW_RELEASE),
         Movie("Particle Fever", Movie.REGULAR)
     ]

@@ -9,7 +9,7 @@ class RentalTest(unittest.TestCase):
 	def setUp(self):
 		self.new_movie = Movie("Mulan", Movie.NEW_RELEASE)
 		self.regular_movie = Movie("CitizenFour", Movie.REGULAR)
-		self.childrens_movie = Movie("Frozen", Movie.CHILDRENS)
+		self.children_movie = Movie("Frozen", Movie.CHILDREN)
 
 	def test_movie_attributes(self):
 		"""trivial test to catch refactoring errors or change in API of Movie"""
