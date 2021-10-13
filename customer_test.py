@@ -18,12 +18,32 @@ class CustomerTest(unittest.TestCase):
 		self.new_movie = Movie("Mulan", Movie.NEW_RELEASE)
 		self.regular_movie = Movie("CitizenFour", Movie.REGULAR)
 		self.children_movie = Movie("Frozen", Movie.CHILDREN)
-		
-	@unittest.skip("No convenient way to test")
-	def test_billing():
-		# no convenient way to test billing since its buried in the statement() method.
-		pass
-	
+
+	def test_billing(self):
+		rental_new_1_day = Rental(self.new_movie, 1)
+		rental_regular_1_day = Rental(self.regular_movie, 1)
+		rental_children_1_day = Rental(self.children_movie, 1)
+		rental_new_2_day = Rental(self.new_movie, 2)
+		rental_regular_2_day = Rental(self.regular_movie, 2)
+		rental_children_3_day = Rental(self.children_movie, 3)
+		rental_new_3_day = Rental(self.new_movie, 3)
+		rental_regular_3_day = Rental(self.regular_movie, 3)
+		rental_children_4_day = Rental(self.children_movie, 4)
+		self.assertEqual(3, rental_new_1_day.rental_price())
+		self.assertEqual(2, rental_regular_1_day.rental_price())
+		self.assertEqual(1.5, rental_children_1_day.rental_price())
+		self.assertEqual(6, rental_new_2_day.rental_price())
+		self.assertEqual(2, rental_regular_2_day.rental_price())
+		self.assertEqual(1.5, rental_children_3_day.rental_price())
+		self.assertEqual(9, rental_new_3_day.rental_price())
+		self.assertEqual(3.5, rental_regular_3_day.rental_price())
+		self.assertEqual(3, rental_children_4_day.rental_price())
+
+	def test_renter_points(self):
+		self.assertEqual(10, Rental(self.new_movie, 10).renter_points())
+		self.assertEqual(1, Rental(self.regular_movie, 10).renter_points())
+		self.assertEqual(1, Rental(self.children_movie, 10).renter_points())
+
 	def test_statement(self):
 		stmt = self.c.statement()
 		# visual testing
@@ -34,8 +54,8 @@ class CustomerTest(unittest.TestCase):
 		self.assertIsNotNone(matches)
 		self.assertEqual("0.00", matches[1])
 		# add a rental
-		self.c.add_rental(Rental(self.new_movie, 4)) # days
+		self.c.add_rental(Rental(self.new_movie, 4))  # days
 		stmt = self.c.statement()
-		matches = re.match(pattern, stmt.replace('\n',''), flags=re.DOTALL)
+		matches = re.match(pattern, stmt.replace('\n', ''), flags=re.DOTALL)
 		self.assertIsNotNone(matches)
 		self.assertEqual("12.00", matches[1])
