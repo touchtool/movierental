@@ -2,7 +2,7 @@ import re
 import unittest 
 from customer import Customer
 from rental import Rental
-from movie import Movie
+from movie import Movie, PriceCode
 
 
 class CustomerTest(unittest.TestCase): 
@@ -15,9 +15,9 @@ class CustomerTest(unittest.TestCase):
 		movies = list of some movies
 		"""
 		self.c = Customer("Movie Mogul")
-		self.new_movie = Movie("Mulan", Movie.NEW_RELEASE)
-		self.regular_movie = Movie("CitizenFour", Movie.REGULAR)
-		self.children_movie = Movie("Frozen", Movie.CHILDREN)
+		self.new_movie = Movie("Mulan", PriceCode.new_release)
+		self.regular_movie = Movie("CitizenFour", PriceCode.normal)
+		self.children_movie = Movie("Frozen", PriceCode.children)
 
 	def test_billing(self):
 		rental_new_1_day = Rental(self.new_movie, 1)
@@ -40,9 +40,12 @@ class CustomerTest(unittest.TestCase):
 		self.assertEqual(3, rental_children_4_day.rental_price())
 
 	def test_renter_points(self):
-		self.assertEqual(10, Rental(self.new_movie, 10).renter_points())
-		self.assertEqual(1, Rental(self.regular_movie, 10).renter_points())
-		self.assertEqual(1, Rental(self.children_movie, 10).renter_points())
+		rental_new = Rental(self.new_movie, 10)
+		rental_regular = Rental(self.regular_movie, 10)
+		rental_children = Rental(self.children_movie, 10)
+		self.assertEqual(10, rental_new.get_movie().renter_points(rental_new.get_days_rented()))
+		self.assertEqual(1, rental_regular.get_movie().renter_points(rental_regular.get_days_rented()))
+		self.assertEqual(1, rental_children.get_movie().renter_points(rental_children.get_days_rented()))
 
 	def test_statement(self):
 		stmt = self.c.statement()
