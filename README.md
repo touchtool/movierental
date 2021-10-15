@@ -67,6 +67,7 @@ of `Customer` class.
 
 6. *The Missing Refactoring*.  In the final code the `Customer` class still needs a *Move Method* refactoring to remove some unrelated behavior, in my opinion.  
    - What do you think?
+        - For-loop rental need to extract and move to rental.py. 
 
 ### Python Version
 
