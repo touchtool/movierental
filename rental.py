@@ -14,12 +14,15 @@ class Rental:
 	field is used.
 	"""
 
-	def __init__(self, movie, days_rented):
+	def __init__(self, movie, days_rented, price_code):
 		"""Initialize a new movie rental object for
 		a movie with known rental period (daysRented).
 		"""
+		if not isinstance(price_code, PriceCode):
+			raise TypeError(f"Movie has unrecognized priceCode {price_code}")
 		self.movie = movie
 		self.days_rented = days_rented
+		self.price_code = price_code
 
 	def get_movie(self):
 		return self.movie
@@ -28,7 +31,14 @@ class Rental:
 		return self.days_rented
 
 	def rental_price(self):
-		return self.movie.price_code.price(self.days_rented)
+		return self.price_code.price(self.days_rented)
+
+	def get_price_code(self):
+		# get the price code
+		return self.price_code
+
+	def renter_points(self, days):
+		return self.price_code.frequency_point(days)
 
 
 class PriceCode(Enum):
