@@ -41,7 +41,7 @@ class MovieCatalog:
             if title in self.title_csv:
                 if self.MOVIE_CSV[i]['title'] == title:
                     return Movie(self.MOVIE_CSV[i]['title'], self.MOVIE_CSV[i]['year'], self.MOVIE_CSV[i]['genres'])
-            if title not in self.title_csv:
+            if title not in self.title_csv:   # If movie not in csv then It's will be new release
                 if {"id": "-", "title": title, "year": "-", "genres": "-"} not in self.MOVIE_CSV:
                     self.MOVIE_CSV.append({"id": "-", "title": title, "year": 2021, "genres": "-"})
                     return Movie(self.MOVIE_CSV[-1]['title'], self.MOVIE_CSV[-1]['year'], self.MOVIE_CSV[-1]['genres'])
