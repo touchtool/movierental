@@ -39,7 +39,7 @@ class MovieCatalog:
         if type(title) != str:
             raise TypeError("Movie require string type")
         for i in range(len(self.MOVIE_CSV)):
-            if title in self.title_csv: # movie
+            if title in self.title_csv:  # movie in csv
                 if self.MOVIE_CSV[i]['title'] == title:
                     return Movie(self.MOVIE_CSV[i]['title'], self.MOVIE_CSV[i]['year'], self.MOVIE_CSV[i]['genres'])
             if title not in self.title_csv:   # If movie not in csv then It's will be new release
