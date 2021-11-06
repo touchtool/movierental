@@ -63,3 +63,5 @@ if __name__ == "__main__":
     catalog = MovieCatalog()
     movie = catalog.get_movie("Mulan")
     print(movie)
+    price_code = PriceCode.for_movie(movie)
+    print(price_code)

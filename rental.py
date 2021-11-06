@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 from enum import Enum
 
 
@@ -46,6 +47,13 @@ class PriceCode(Enum):
 	new_release = {"price": lambda days: 3.0*days, "frp": lambda days: days}
 	normal = {"price": lambda days: 2+(1.5*(days-2)) if days > 2 else 2, "frp": lambda days: 1}
 	children = {"price": lambda days: 1.5 + 1.5*(days-3) if days > 3 else 1.5, "frp": lambda days: 1}
+
+	def for_movie(movie):
+		if movie.year == datetime.today().year:
+			return PriceCode.new_release
+		elif movie.is_genre("Children"):
+			return PriceCode.children
+		return PriceCode.normal
 
 	def frequency_point(self, days: int) -> float:
 		"""Return the rental point for a given number of days"""
