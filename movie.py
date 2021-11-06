@@ -1,4 +1,12 @@
-from rental import PriceCode
+import csv
+
+
+MOVIE_CSV = []
+file = open('movies.csv')
+movie_csv = csv.DictReader(file)
+for row in movie_csv:
+    MOVIE_CSV.append(row)
+file.close()
 
 
 class Movie:
@@ -18,7 +26,16 @@ class Movie:
         return self.title
 
     def is_genre(self) -> str:
-        return type(self.genre)==type(str)
+        return type(self.genre) == type(str)
 
     def __str__(self):
         return self.title
+
+
+class MovieCatalog:
+    """Get movie from csv file."""
+    def get_movie(self, title: str):
+        for i in range(len(MOVIE_CSV)):
+            if MOVIE_CSV[i]['title'] == title:
+                return MOVIE_CSV[i]
+
