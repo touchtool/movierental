@@ -3,12 +3,14 @@ from movie import Movie, MovieCatalog
 
 
 class Customer:
+
     """
        A customer who rents movies.
        The customer object holds information about the
        movies rented for the current billing period,
        and can print a statement of his rentals.
     """
+
     def __init__(self, name: str):
         """ Initialize a new customer."""
         self.name = name

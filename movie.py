@@ -7,12 +7,9 @@ class Movie:
     """
     def __init__(self, title, year, genre):
         # Initialize a new movie.
-        # if not isinstance(price_code, PriceCode):
-        #     raise TypeError(f"Movie has unrecognized priceCode {price_code}")
         self.title = title
         self.year = year
         self.genre = genre
-        # self.price_code = price_code
 
     def get_title(self):
         return self.title
