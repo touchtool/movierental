@@ -2,7 +2,7 @@ import re
 import unittest 
 from customer import Customer
 from rental import Rental, PriceCode
-from movie import Movie
+from movie import Movie, MovieCatalog
 
 
 class CustomerTest(unittest.TestCase): 
@@ -19,34 +19,51 @@ class CustomerTest(unittest.TestCase):
 		self.regular_movie = Movie("CitizenFour", 2000, ["Action", "Adventure", "Drama"])
 		self.children_movie_new_release = Movie("Frozen", 2021, ["Action", "Adventure", "Drama", "Children"])
 		self.children_movie = Movie("Frozen", 2020, ["Action", "Adventure", "Drama", "Children"])
+		# with movie csv
+		self.catalog = MovieCatalog()
+		self.movie_mulan = self.catalog.get_movie("Mulan")
+		self.movie_tenant = self.catalog.get_movie("A Tenant")
+		self.movie_arrival = self.catalog.get_movie("The Arrival")
 
 	def test_billing(self):
-		rental_new_1_day = Rental(self.new_movie, 1, PriceCode.for_movie(self.new_movie))
-		rental_regular_1_day = Rental(self.regular_movie, 1, PriceCode.for_movie(self.regular_movie))
-		rental_children_1_day = Rental(self.children_movie, 1, PriceCode.for_movie(self.children_movie))
-		rental_new_2_day = Rental(self.new_movie, 2, PriceCode.for_movie(self.new_movie))
-		rental_regular_2_day = Rental(self.regular_movie, 2, PriceCode.for_movie(self.regular_movie))
-		rental_children_3_day = Rental(self.children_movie, 3, PriceCode.for_movie(self.children_movie))
-		rental_new_3_day = Rental(self.new_movie, 3, PriceCode.for_movie(self.new_movie))
-		rental_regular_3_day = Rental(self.regular_movie, 3, PriceCode.for_movie(self.regular_movie))
-		rental_children_4_day = Rental(self.children_movie, 4, PriceCode.for_movie(self.children_movie))
-		self.assertEqual(3, rental_new_1_day.rental_price())
-		self.assertEqual(2, rental_regular_1_day.rental_price())
-		self.assertEqual(1.5, rental_children_1_day.rental_price())
-		self.assertEqual(6, rental_new_2_day.rental_price())
-		self.assertEqual(2, rental_regular_2_day.rental_price())
-		self.assertEqual(1.5, rental_children_3_day.rental_price())
-		self.assertEqual(9, rental_new_3_day.rental_price())
-		self.assertEqual(3.5, rental_regular_3_day.rental_price())
-		self.assertEqual(3, rental_children_4_day.rental_price())
+		rental = Rental(self.new_movie, 1, PriceCode.for_movie(self.new_movie))
+		self.assertEqual(3, rental.rental_price())
+		rental = Rental(self.regular_movie, 1, PriceCode.for_movie(self.regular_movie))
+		self.assertEqual(2, rental.rental_price())
+		rental = Rental(self.children_movie, 1, PriceCode.for_movie(self.children_movie))
+		self.assertEqual(1.5, rental.rental_price())
+		rental = Rental(self.new_movie, 2, PriceCode.for_movie(self.new_movie))
+		self.assertEqual(6, rental.rental_price())
+		rental = Rental(self.regular_movie, 2, PriceCode.for_movie(self.regular_movie))
+		self.assertEqual(2, rental.rental_price())
+		rental = Rental(self.children_movie, 3, PriceCode.for_movie(self.children_movie))
+		self.assertEqual(1.5, rental.rental_price())
+		rental = Rental(self.new_movie, 3, PriceCode.for_movie(self.new_movie))
+		self.assertEqual(9, rental.rental_price())
+		rental = Rental(self.regular_movie, 3, PriceCode.for_movie(self.regular_movie))
+		self.assertEqual(3.5, rental.rental_price())
+		rental = Rental(self.children_movie, 4, PriceCode.for_movie(self.children_movie))
+		self.assertEqual(3, rental.rental_price())
+		rental = Rental(self.movie_mulan, 4, PriceCode.for_movie(self.movie_mulan))
+		self.assertEqual(3, rental.rental_price())
+		rental = Rental(self.movie_arrival, 4, PriceCode.for_movie(self.movie_arrival))
+		self.assertEqual(5, rental.rental_price())
+		rental = Rental(self.movie_tenant, 4, PriceCode.for_movie(self.movie_tenant))
+		self.assertEqual(5, rental.rental_price())
 
 	def test_renter_points(self):
-		rental_new = Rental(self.new_movie, 10, PriceCode.for_movie(self.new_movie))
-		rental_regular = Rental(self.regular_movie, 10, PriceCode.for_movie(self.regular_movie))
-		rental_children = Rental(self.children_movie, 10, PriceCode.for_movie(self.children_movie))
-		self.assertEqual(10, rental_new.renter_points(rental_new.get_days_rented()))
-		self.assertEqual(1, rental_regular.renter_points(rental_regular.get_days_rented()))
-		self.assertEqual(1, rental_children.renter_points(rental_children.get_days_rented()))
+		rental = Rental(self.new_movie, 10, PriceCode.for_movie(self.new_movie))
+		self.assertEqual(10, rental.renter_points(rental.get_days_rented()))
+		rental = Rental(self.regular_movie, 10, PriceCode.for_movie(self.regular_movie))
+		self.assertEqual(1, rental.renter_points(rental.get_days_rented()))
+		rental = Rental(self.children_movie, 10, PriceCode.for_movie(self.children_movie))
+		self.assertEqual(1, rental.renter_points(rental.get_days_rented()))
+		rental = Rental(self.movie_tenant, 10, PriceCode.for_movie(self.movie_tenant))
+		self.assertEqual(1, rental.renter_points(rental.get_days_rented()))
+		rental = Rental(self.movie_mulan, 10, PriceCode.for_movie(self.movie_mulan))
+		self.assertEqual(1, rental.renter_points(rental.get_days_rented()))
+		rental = Rental(self.movie_arrival, 10, PriceCode.for_movie(self.movie_arrival))
+		self.assertEqual(1, rental.renter_points(rental.get_days_rented()))
 
 	def test_statement(self):
 		stmt = self.c.statement()
