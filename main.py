@@ -18,17 +18,11 @@ def make_movies():
     return movies
 
 
-def set_price_code(movie):
-    """If movie not in csv then It's will be new release"""
-    price_codes = PriceCode.for_movie(movie)
-    return price_codes
-
-
 if __name__ == '__main__':
     # Create a customer with some rentals
     customer = Customer("Edward Snowden")
     days = 1
     for movie in make_movies():
-        customer.add_rental(Rental(movie, days, set_price_code(movie)))
+        customer.add_rental(Rental(movie, days, PriceCode.for_movie(movie)))
         days += 1
     print(customer.statement())
